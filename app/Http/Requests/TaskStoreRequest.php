@@ -24,6 +24,7 @@ class TaskStoreRequest extends FormRequest
         return [
             'title' => 'required|min:3|max:255',
             'description' => 'max:255',
+            'date' => 'date',
             'user_id' => 'exists:App\Models\User,id',
         ];
     }
