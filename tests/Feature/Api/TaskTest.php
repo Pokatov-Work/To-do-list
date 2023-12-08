@@ -12,18 +12,20 @@ class TaskTest extends TestCase
 {
     use RefreshDatabase;
 
+    const API_ROUTE = '/api/v1/task';
+
     /**
      * A basic feature test example.
      */
     public function testIndex(): void
     {
-//        $response = $this->get('/api/task');
+//        $response = $this->get('/api/v1/task');
 //        $response->assertStatus(200);
 
         $user = User::factory(3)->create();
         $task = Task::factory()->create();
 
-        $response = $this->getJson('/api/task');
+        $response = $this->getJson(self::API_ROUTE);
         $response->assertOk();
 
         $response->assertJson([
@@ -43,7 +45,7 @@ class TaskTest extends TestCase
         $user = User::factory(3)->create();
         $task = Task::factory()->make();
 
-        $response = $this->postJson('/api/task', $task->toArray());
+        $response = $this->postJson(self::API_ROUTE, $task->toArray());
 
         $response->assertCreated();
 
@@ -63,7 +65,7 @@ class TaskTest extends TestCase
         $existingTask = Task::factory()->create();
         $newTask = Task::factory()->make();
 
-        $response = $this->putJson('/api/task/'.$existingTask->id, $newTask->toArray());
+        $response = $this->putJson(self::API_ROUTE . '/' . $existingTask->id, $newTask->toArray());
         $response->assertJson([
             'data' => [
                 'id' => $existingTask->id,
@@ -82,7 +84,7 @@ class TaskTest extends TestCase
         $user = User::factory(3)->create();
         $existingTask = Task::factory()->create();
 
-        $this->deleteJson('/api/task/'.$existingTask->id)->assertNoContent();
+        $this->deleteJson(self::API_ROUTE . '/' . $existingTask->id)->assertNoContent();
 
         $this->assertDatabaseMissing(
             'tasks',
