@@ -16,6 +16,10 @@ class Task extends Model
         'user_id'
     ];
 
+    /**
+     * В дальнейшем можно организовать привязку дела к исполнителю
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function performer()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
